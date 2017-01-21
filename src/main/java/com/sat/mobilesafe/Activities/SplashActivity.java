@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -98,6 +99,13 @@ public class SplashActivity extends AppCompatActivity {
                 download();
             }
         });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                enterHome();
+                dialogInterface.dismiss();
+            }
+        });
         builder.show();
     }
 
@@ -117,12 +125,10 @@ public class SplashActivity extends AppCompatActivity {
                 public void onSuccess(File result) {
                     Log.d(tag, "onSuccess");
                     installApk(result);
-
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    
                     Log.d(tag, "error");
                 }
 
@@ -142,10 +148,15 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(intent,1);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            enterHome();
 
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
