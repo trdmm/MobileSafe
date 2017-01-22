@@ -173,6 +173,9 @@ public class SplashActivity extends AppCompatActivity {
         initAnimation();
     }
 
+    /**
+     * 添加淡入功能
+     */
     private void initAnimation() {
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(3000);
