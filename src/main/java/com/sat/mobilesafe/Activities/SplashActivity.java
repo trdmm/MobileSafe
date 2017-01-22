@@ -16,6 +16,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sat.mobilesafe.R;
@@ -50,10 +54,10 @@ public class SplashActivity extends AppCompatActivity {
     private static final int JSONEXCEPTION = 5;
     private TextView tv_version_name;
     private int mLocalVersionCode;
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case UPDATE_VERSION:
                     showUpdateDialog();
                     break;
@@ -61,15 +65,15 @@ public class SplashActivity extends AppCompatActivity {
                     enterHome();
                     break;
                 case URLEXCEPTION:
-                    ToastUtil.show(SplashActivity.this,"URL异常");
+                    ToastUtil.show(SplashActivity.this, "URL异常");
                     enterHome();
                     break;
                 case IOEXCEPTION:
-                    ToastUtil.show(SplashActivity.this,"IO异常");
+                    ToastUtil.show(SplashActivity.this, "IO异常");
                     enterHome();
                     break;
                 case JSONEXCEPTION:
-                    ToastUtil.show(SplashActivity.this,"JSON异常");
+                    ToastUtil.show(SplashActivity.this, "JSON异常");
                     enterHome();
                     break;
             }
@@ -77,6 +81,7 @@ public class SplashActivity extends AppCompatActivity {
     };
     private String mVersionDes;
     private String mVersionUrl;
+    private RelativeLayout rl_root;
 
     /**
      * 弹出升级对话框
@@ -106,6 +111,8 @@ public class SplashActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
+        
+
         builder.show();
     }
 
@@ -144,19 +151,15 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     }
+
     private void installApk(File file) {
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
-        intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(intent,1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            enterHome();
-
-        super.onActivityResult(requestCode, resultCode, data);
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        //startActivity(intent);
     }
 
     @Override
@@ -167,6 +170,13 @@ public class SplashActivity extends AppCompatActivity {
         initUI();
         //初始化Data
         initData();
+        initAnimation();
+    }
+
+    private void initAnimation() {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(3000);
+        rl_root.setAnimation(alphaAnimation);
     }
 
     /**
@@ -207,6 +217,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Message msg = Message.obtain();
+                long startTime = System.currentTimeMillis();
                 //发送http请求
                 try {
                     //1.封装url地址
@@ -218,12 +229,12 @@ public class SplashActivity extends AppCompatActivity {
                     connection.setReadTimeout(5000);
                     //4,获取请求码
                     int responseCode = connection.getResponseCode();
-                    if (responseCode==200){
+                    if (responseCode == 200) {
                         //5.以流的方式读取返回的信息
                         InputStream inputStream = connection.getInputStream();
                         //6.将流转字符串
                         String json = StreamUtil.stream2string(inputStream);
-                        Log.d(tag,json);
+                        Log.d(tag, json);
                         //7.JSON解析
                         JSONObject jsonObject = new JSONObject(json);
 
@@ -232,16 +243,16 @@ public class SplashActivity extends AppCompatActivity {
                         String versionCode = jsonObject.getString("versionCode");
                         mVersionUrl = jsonObject.getString("versionUrl");
                         //8.比对版本号
-                        if (Integer.parseInt(versionCode)>mLocalVersionCode){
-                            Log.d(tag,"服务器："+Integer.parseInt(versionCode)+"本地："+mLocalVersionCode);
+                        if (Integer.parseInt(versionCode) > mLocalVersionCode) {
+                            Log.d(tag, "服务器：" + Integer.parseInt(versionCode) + "本地：" + mLocalVersionCode);
                             msg.what = UPDATE_VERSION;
-                        //提示用户更新
-                        }else {
+                            //提示用户更新
+                        } else {
                             //进入主界面
                             //Intent intent = new Intent(SplashActivity.this,HomeActivity.class);
                             msg.what = ENTER_HOME;
                         }
-                        mHandler.sendMessage(msg);
+
                     }
                 } catch (MalformedURLException e) {
                     msg.what = URLEXCEPTION;
@@ -252,6 +263,16 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     msg.what = JSONEXCEPTION;
                     e.printStackTrace();
+                }finally {
+                    long endTime = System.currentTimeMillis();
+                    if (endTime-startTime<4000){
+                        try {
+                            Thread.sleep(4000-(endTime-startTime));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    mHandler.sendMessage(msg);
                 }
             }
         }).start();
@@ -285,5 +306,6 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void initUI() {
         tv_version_name = (TextView) findViewById(R.id.tv_version_name);
+        rl_root = (RelativeLayout) findViewById(R.id.rl_root);
     }
 }
