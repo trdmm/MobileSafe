@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sat.mobilesafe.R;
+import com.sat.mobilesafe.Utils.ConstantValue;
+import com.sat.mobilesafe.Utils.SpUtils;
 import com.sat.mobilesafe.Utils.StreamUtil;
 import com.sat.mobilesafe.Utils.ToastUtil;
 
@@ -193,7 +195,13 @@ public class SplashActivity extends AppCompatActivity {
         mLocalVersionCode = getmLocalVersionCode();
         //3.获取服务器版本号
         //http://www.xxx.com/updateVersion.json?key=value  流的方式将数据读取下来
-        checkVersion();
+        if (SpUtils.getBoolean(this, ConstantValue.OPEN_UPDATE,false)){
+            checkVersion();
+        }else {
+            //enterHome();
+            //主线程不要使用Sleep，超过7s就ANR了
+            mHandler.sendEmptyMessageDelayed(ENTER_HOME,4000);
+        }
     }
 
     /**

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_height="match_parent">
+<TextView
+    android:text="设置中心"
+    style="@style/TitleStyle"/>
+    <com.sat.mobilesafe.Views.SettingItemView
+        android:id="@+id/siv_update"
+        app:destitle="开启自动更新"
+        app:deson="自动更新已开启"
+        app:desoff="自动更新已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.sat.mobilesafe.Views.SettingItemView
+        app:destitle="电话归属地的显示设置"
+        app:deson="电话归属地的显示已开启"
+        app:desoff="电话归属地的显示已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
