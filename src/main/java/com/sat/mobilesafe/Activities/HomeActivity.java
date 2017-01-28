@@ -12,13 +12,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.sat.mobilesafe.R;
 import com.sat.mobilesafe.Utils.ConstantValue;
+import com.sat.mobilesafe.Utils.Md5Util;
 import com.sat.mobilesafe.Utils.SpUtils;
 import com.sat.mobilesafe.Utils.ToastUtil;
 
@@ -79,7 +80,35 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showConfirmPwdDialog() {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog dialog = builder.create();
+        final View view = View.inflate(this, R.layout.dialog_confirm_pwd, null);
+        dialog.setView(view);
+        dialog.show();
+        Button bt_submit = (Button) view.findViewById(R.id.bt_submit);
+        Button bt_cancel = (Button) view.findViewById(R.id.bt_cancel);
+        bt_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText et_confirm_pwd = (EditText) view.findViewById(R.id.et_confirm_pwd);
+                String pwd = Md5Util.encoder(et_confirm_pwd.getText().toString());
+                String pwd_sp = SpUtils.getString(getApplicationContext(), ConstantValue.MOBILE_SAFE_PWD, "");
+                Log.d("TAG","pwd:"+pwd+"\n"+"pwd_sp:"+pwd_sp);
+                if (pwd.equals(pwd_sp)){
+                    Intent intent = new Intent(HomeActivity.this, TestActivity.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }else {
+                    ToastUtil.show(getApplicationContext(),"请输入正确密码");
+                }
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void showSetPwdDialog() {
@@ -93,8 +122,8 @@ public class HomeActivity extends AppCompatActivity {
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView et_set_pwd = (TextView) view.findViewById(R.id.et_set_pwd);
-                TextView et_confirm_pwd = (TextView) view.findViewById(R.id.et_confirm_pwd);
+                EditText et_set_pwd = (EditText) view.findViewById(R.id.et_set_pwd);
+                EditText et_confirm_pwd = (EditText) view.findViewById(R.id.et_confirm_pwd);
 
                 String pwd = et_set_pwd.getText().toString();
                 String confirmPwd = et_confirm_pwd.getText().toString();

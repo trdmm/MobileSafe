@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
  * Created by knight on 17-1-27.
  */
 
-public class Md5 {
+public class Md5Util {
     public static String encoder(String pwd){
         StringBuffer stringBuffer =  new StringBuffer();
         try {

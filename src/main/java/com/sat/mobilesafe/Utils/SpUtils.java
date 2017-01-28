@@ -44,7 +44,7 @@ public class SpUtils {
         if (sp == null) {
             sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
-        String pwd = Md5.encoder(value);
+        String pwd = Md5Util.encoder(value);
         sp.edit().putString(key,pwd).commit();
     }
 
