@@ -95,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                 String pwd_sp = SpUtils.getString(getApplicationContext(), ConstantValue.MOBILE_SAFE_PWD, "");
                 Log.d("TAG","pwd:"+pwd+"\n"+"pwd_sp:"+pwd_sp);
                 if (pwd.equals(pwd_sp)){
-                    Intent intent = new Intent(HomeActivity.this, TestActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, SetupOverActivity.class);
                     startActivity(intent);
                     dialog.dismiss();
                 }else {
@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (pwd.equals(confirmPwd)){
                         //密码相同进入防盗页面
                         SpUtils.putString(getApplicationContext(),ConstantValue.MOBILE_SAFE_PWD,pwd);
-                        Intent intent = new Intent(HomeActivity.this, TestActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, SetupOverActivity.class);
                         startActivity(intent);
                         dialog.dismiss();
                     }else {

@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".Activities.HomeActivity" />
         <activity android:name=".Activities.SettingActivity"/>
-        <activity android:name=".Activities.TestActivity"/>
+        <activity android:name=".Activities.Setup1Activity"/>
+        <activity android:name=".Activities.SetupOverActivity"/>
     </application>
 
 </manifest>
