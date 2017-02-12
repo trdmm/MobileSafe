@@ -18,5 +18,35 @@
         <item name="android:background">#6d9eeb</item>
         <item name="android:padding">10dp</item>
     </style>
-
+<!--android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/selector_btn_next"
+            android:drawableRight="@drawable/next"
+            android:onClick="next_page"
+            android:text="下一页"-->
+    <style name="nextPage">
+        <item name="android:drawableRight">@drawable/next</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/selector_btn_next</item>
+        <item name="android:onClick">next_page</item>
+        <item name="android:text">下一页</item>
+    </style>
+    <style name="prePage">
+        <item name="android:drawableLeft">@drawable/previous</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/selector_btn_next</item>
+        <item name="android:onClick">pre_page</item>
+        <item name="android:text">上一页</item>
+    </style>
 </resources>

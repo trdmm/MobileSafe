@@ -70,14 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
-            android:layout_margin="5dp"
-            android:text="下一页"
-            android:background="@drawable/selector_btn_next"
-            android:drawableRight="@drawable/next"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/nextPage" />
         <ImageView
             android:layout_centerInParent="true"
             android:src="@drawable/setup1"
