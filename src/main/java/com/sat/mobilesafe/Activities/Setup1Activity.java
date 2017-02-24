@@ -11,15 +11,24 @@ import com.sat.mobilesafe.R;
 /**
  * Created by knight on 17-2-6.
  */
-public class Setup1Activity extends AppCompatActivity {
+public class Setup1Activity extends BaseSetUpActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup1);
     }
-    public void next_page(View v){
+
+    @Override
+    protected void showPrePage() {
+
+    }
+
+    @Override
+    protected void showNextPage() {
         Intent intent = new Intent(this, Setup2Activity.class);
         startActivity(intent);
         finish();
+        //开启平移动画
+        overridePendingTransition(R.anim.next_in_anim,R.anim.next_out_anim);
     }
 }

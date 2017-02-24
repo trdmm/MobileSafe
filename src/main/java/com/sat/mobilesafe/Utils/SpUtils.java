@@ -44,8 +44,7 @@ public class SpUtils {
         if (sp == null) {
             sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
-        String pwd = Md5Util.encoder(value);
-        sp.edit().putString(key,pwd).commit();
+        sp.edit().putString(key,value).commit();
     }
 
     /**
@@ -60,5 +59,12 @@ public class SpUtils {
             sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
         return sp.getString(key,defValue);
+    }
+
+    public static void remove(Context context, String simNum) {
+        if(sp == null){
+            sp = context.getSharedPreferences("config",Context.MODE_PRIVATE);
+        }
+        sp.edit().remove(ConstantValue.SIM_NUM).commit();
     }
 }

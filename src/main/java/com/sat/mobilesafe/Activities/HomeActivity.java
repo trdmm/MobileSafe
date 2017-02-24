@@ -23,6 +23,8 @@ import com.sat.mobilesafe.Utils.Md5Util;
 import com.sat.mobilesafe.Utils.SpUtils;
 import com.sat.mobilesafe.Utils.ToastUtil;
 
+import org.xutils.common.util.MD5;
+
 /**
  * Project:Working
  * Package:com.sat.mobilesafe.Activities
@@ -131,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
                     //密码非空，检验密码是否相等
                     if (pwd.equals(confirmPwd)){
                         //密码相同进入防盗页面
-                        SpUtils.putString(getApplicationContext(),ConstantValue.MOBILE_SAFE_PWD,pwd);
+                        SpUtils.putString(getApplicationContext(),ConstantValue.MOBILE_SAFE_PWD, Md5Util.encoder(pwd));
                         Intent intent = new Intent(HomeActivity.this, SetupOverActivity.class);
                         startActivity(intent);
                         dialog.dismiss();

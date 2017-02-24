@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<uses-permission android:name="android.permission.READ_CONTACTS"/>
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -26,6 +27,7 @@
         <activity android:name=".Activities.Setup2Activity" />
         <activity android:name=".Activities.Setup3Activity" />
         <activity android:name=".Activities.Setup4Activity"/>
+        <activity android:name=".Activities.ContactListActivity"/>
     </application>
 
 </manifest>

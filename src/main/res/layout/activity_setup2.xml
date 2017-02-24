@@ -19,7 +19,7 @@
         android:textSize="18sp" />
 
     <com.sat.mobilesafe.Views.SettingItemView
-        android:id="@+id/siv_bind"
+        android:id="@+id/siv_sim_bound"
         android:layout_width="match_parent"
         android:layout_weight="3"
         android:layout_height="0dp"
