@@ -10,4 +10,5 @@ public class ConstantValue {
     public static final String SIV_BIND = "siv_bind";
     public static final String SIM_NUM = "sim_num";
     public static final String CONTACT_NUM = "contact_num";
+    public static final String OPEN_SECURITY = "setup_open";
 }
