@@ -3,6 +3,7 @@ package com.sat.mobilesafe.Activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -35,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     private GridView gv_home;
     private String[] mTitleStr;
     private int[] mDrawableIds;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +57,10 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                         showDialog();
                         Log.d("TAG","手机防盗");
+                        break;
+                    case 7:
+                        //跳转到高级工具列表
+                        startActivity(new Intent(getApplicationContext(),AToolActivity.class));
                         break;
                     case 8:
                         Intent intent = new Intent(getApplicationContext(), SettingActivity.class);

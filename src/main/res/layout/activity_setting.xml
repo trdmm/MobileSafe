@@ -15,9 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.sat.mobilesafe.Views.SettingItemView
+        android:id="@+id/siv_phone_address"
         app:destitle="电话归属地的显示设置"
         app:deson="电话归属地的显示已开启"
         app:desoff="电话归属地的显示已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.sat.mobilesafe.Views.SettingClickView
+        android:id="@+id/scv_toast_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

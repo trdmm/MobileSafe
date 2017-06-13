@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">手机卫士</string>
     <string name="manjianghong">自古英雄，凭苍宇、江山点索。酬壮志、铁窗寒彻，泮池磅礴。史岭红梅花沥血，芦沟晓月天飞鹤。
-                      擎玉虹，魑魅冷相看，惊魂魄。
-                      歌颍上，旗旆烁。驱稔寇，飙尘恶。
-                      诉声声杜宇，孛星凋落。
-                      春水绿杨风曼暖，秋山红叶日彰灼。
-                      清明日、持酒告先灵，神州跃。</string>
+        擎玉虹，魑魅冷相看，惊魂魄。
+        歌颍上，旗旆烁。驱稔寇，飙尘恶。
+        诉声声杜宇，孛星凋落。
+        春水绿杨风曼暖，秋山红叶日彰灼。
+        清明日、持酒告先灵，神州跃。
+    </string>
+    <string name="sample_device_admin">超级管理员</string>
+    <string name="device_admin_description">一件激活，一键锁屏，一键清除数据，一件卸载</string>
+    <string name="function_list">功能列表</string>
+    <string name="atools">高级工具</string>
 </resources>

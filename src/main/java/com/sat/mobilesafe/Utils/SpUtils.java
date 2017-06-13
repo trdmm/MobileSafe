@@ -3,6 +3,8 @@ package com.sat.mobilesafe.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.sat.mobilesafe.Activities.SettingActivity;
+
 /**
  * Created by knight on 17-1-23.
  */
@@ -66,5 +68,21 @@ public class SpUtils {
             sp = context.getSharedPreferences("config",Context.MODE_PRIVATE);
         }
         sp.edit().remove(ConstantValue.SIM_NUM).commit();
+    }
+
+    public static int getInt(Context context, String key, int value) {
+        //存储节点文件的名称 ，读写方式
+        if (sp == null) {
+            sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        return sp.getInt(key,value);
+    }
+
+    public static void putInt(Context context,String key,int value){
+        //存储节点文件的名称 ，读写方式
+        if (sp == null) {
+            sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        sp.edit().putInt(key,value).commit();
     }
 }

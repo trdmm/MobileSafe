@@ -30,4 +30,8 @@ public class ConstantValue {
      * 手机卫士安全选项是否打开
      */
     public static final String OPEN_SECURITY = "setup_open";
+    /**
+     * Toast显示风格索引Key
+     */
+    public static final String TOAST_STYLE = "toast_style";
 }

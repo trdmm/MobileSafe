@@ -6,7 +6,7 @@
 
     <TextView
         style="@style/TitleStyle"
-        android:text="功能列表"/>
+        android:text="@string/function_list"/>
 
     <!--<TextView
         android:layout_width="match_parent"

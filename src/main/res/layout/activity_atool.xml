@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sat.mobilesafe.Activities.AToolActivity">
+<TextView
+    style="@style/TitleStyle"
+    android:text="@string/atools"/>
+    <TextView
+        android:text="归属地查询"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:background="@drawable/selector_atool_item"
+        android:id="@+id/tv_phone_address_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
