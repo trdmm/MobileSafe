@@ -8,15 +8,18 @@ import android.os.IBinder;
 import android.os.Message;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sat.mobilesafe.Engine.AddressDao;
 import com.sat.mobilesafe.R;
+import com.sat.mobilesafe.Utils.ConstantValue;
+import com.sat.mobilesafe.Utils.SpUtils;
 
 
 public class AddressService extends Service {
@@ -26,6 +29,8 @@ public class AddressService extends Service {
     private View mViewToast;
     private WindowManager mWM;
     private TextView tv_toast;
+    private int mHeightPixels;
+    private int mWidthPixels;
 
     public AddressService() {
     }
@@ -87,6 +92,7 @@ public class AddressService extends Service {
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     //摘机(相当于座机拿起话筒)
                     Log.d(tag, "摘机了................");
+                    showToast(incomingNumber);
                     break;
             }
             super.onCallStateChanged(state, incomingNumber);
@@ -96,21 +102,91 @@ public class AddressService extends Service {
     private void showToast(String incomingNumber) {
         //Toast.makeText(this,incomingNumber,Toast.LENGTH_LONG).show();
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.format = PixelFormat.TRANSLUCENT;
         //params.windowAnimations = com.android.internal.R.style.Animation_Toast;
-        params.type = WindowManager.LayoutParams.TYPE_TOAST;
+        params.type = WindowManager.LayoutParams.TYPE_PHONE;
         params.setTitle("Toast");
         params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         //        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
         //指定吐司所在位置
-        params.gravity = Gravity.LEFT + Gravity.BOTTOM;
+        params.gravity = Gravity.LEFT + Gravity.TOP;
         //指定吐司布局 xml-->view,将view挂载到windowManager上
         mViewToast = View.inflate(this, R.layout.toast_view, null);
         tv_toast = (TextView) mViewToast.findViewById(R.id.tv_toast);
+
+        params.x = SpUtils.getInt(getApplicationContext(),ConstantValue.IMAGE_LOCATION_LEFT,0);
+        params.y = SpUtils.getInt(getApplicationContext(),ConstantValue.IMAGE_LOCATION_TOP,0);
+        //Log.d("TAG","来电时"+params.x+"---"+params.y);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mHeightPixels = dm.heightPixels;
+        mWidthPixels = dm.widthPixels;
+        mViewToast.setOnTouchListener(new View.OnTouchListener() {
+            private int startY;
+            private int startX;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        //0.初始点的坐标
+                        startX = (int) event.getRawX();
+                        startY = (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //0.移动后的坐标
+                        int moveX = (int) event.getRawX();
+                        int moveY = (int) event.getRawY();
+                        //0.移动的距离
+                        int disX = moveX - startX;
+                        int disY = moveY - startY;
+
+                        //1.当前控件所在屏幕的左(上)距离
+                        params.x += disX;
+                        params.y += disY;
+                        Log.d("TAG","Service中移动时"+params.x+"---"+params.y);
+
+                        //2.告知控件，按计算出来的坐标去做展示
+                        if (params.x<0){
+                            params.x=0;
+                        }
+                        if (params.x>mWidthPixels-mViewToast.getWidth()){
+                            params.x=mWidthPixels-mViewToast.getWidth();
+                        }
+                        if (params.y<0){
+                            params.y=0;
+                        }
+                        if (params.y > mHeightPixels-mViewToast.getHeight()){
+                            params.y = mHeightPixels-mViewToast.getHeight();
+                        }
+//                        if (!(params.x<0 || params.x>mWidthPixels-mViewToast.getWidth() ||
+//                                params.y<0 ||params.y > mHeightPixels-mViewToast.getHeight())) {
+                        mWM.updateViewLayout(mViewToast, params);
+//                    }
+
+                        //3.重置初始坐标
+                        startX = (int) event.getRawX();
+                        startY = (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        //4.记录当前位置
+                        SpUtils.putInt(getApplicationContext(), ConstantValue.IMAGE_LOCATION_LEFT, params.x);
+                        SpUtils.putInt(getApplicationContext(), ConstantValue.IMAGE_LOCATION_TOP, params.y);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+        //从SP中获取色值文字的索引，匹配图片
+        //"透明", "橙色", "蓝色", "灰色", "绿色"
+        int[] drawableIds = new int[]{R.drawable.call_locate_white,R.drawable.call_locate_orange,R.drawable.call_locate_blue,
+                R.drawable.call_locate_grey,R.drawable.call_locate_green};
+        int toastStyleIndex = SpUtils.getInt(this, ConstantValue.TOAST_STYLE, 0);
+        tv_toast.setBackgroundResource(drawableIds[toastStyleIndex]);
         //将布局和params添加到窗体对象中(权限)
         mWM.addView(mViewToast,params);
         query(incomingNumber);

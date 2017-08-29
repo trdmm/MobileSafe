@@ -34,4 +34,12 @@ public class ConstantValue {
      * Toast显示风格索引Key
      */
     public static final String TOAST_STYLE = "toast_style";
+    /**
+     * 吐司图片左上角X坐标
+     */
+    public static final String IMAGE_LOCATION_LEFT = "image_location_left";
+    /**
+     * 吐司图片左上角Y坐标
+     */
+    public static final String IMAGE_LOCATION_TOP = "image_location_top";
 }

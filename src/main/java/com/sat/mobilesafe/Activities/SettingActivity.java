@@ -1,11 +1,14 @@
 package com.sat.mobilesafe.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.sat.mobilesafe.R;
 import com.sat.mobilesafe.Service.AddressService;
@@ -21,7 +24,10 @@ import com.sat.mobilesafe.Views.SettingItemView;
 
 public class SettingActivity extends AppCompatActivity {
 
-    private String[] mToastStyle;
+    private String[] mToastStyleDes;
+    private int mToastStyle;
+    private SettingClickView scv_toast_style;
+    private SettingClickView scv_toast_location;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,14 +36,75 @@ public class SettingActivity extends AppCompatActivity {
         initUpdate();
         initAddress();
         initToastStyle();
+        initToastLocation();
+        initTest();
+    }
+
+    private void initTest() {
+        Button bt_test = (Button) findViewById(R.id.bt_test);
+        bt_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 设置来电归属地Toast的显示位置
+     */
+    private void initToastLocation() {
+        scv_toast_location = (SettingClickView) findViewById(R.id.scv_toast_location);
+        scv_toast_location.setTitle("归属地提示框的位置");
+        scv_toast_location.setDes("设置归属地提示框的位置");
+        scv_toast_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ToastLocationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initToastStyle() {
-        SettingClickView scv_toast_style = (SettingClickView) findViewById(R.id.scv_toast_style);
+        scv_toast_style = (SettingClickView) findViewById(R.id.scv_toast_style);
         scv_toast_style.setTitle("设置归属地显示风格");
-        mToastStyle = new String[]{"透明", "橙色", "蓝色", "灰色", "绿色"};
-        int toast_style = SpUtils.getInt(this, ConstantValue.TOAST_STYLE, 0);
-        scv_toast_style.setDes(mToastStyle[toast_style]);
+        mToastStyleDes = new String[]{"透明", "橙色", "蓝色", "灰色", "绿色"};
+        mToastStyle = SpUtils.getInt(this, ConstantValue.TOAST_STYLE, 0);
+        scv_toast_style.setDes(mToastStyleDes[mToastStyle]);
+        scv_toast_style.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToastStyleDialog();
+            }
+        });
+    }
+
+    /**
+     * 创建选中显示样式对话框
+     */
+    private void showToastStyleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.app_icon);
+        builder.setTitle("请选择归属地显示样式");
+        mToastStyle = SpUtils.getInt(this, ConstantValue.TOAST_STYLE, 0);
+        builder.setSingleChoiceItems(mToastStyleDes, mToastStyle, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //1.记录选中的索引值 2.关闭对话框 3.显示选中色值的文字
+                SpUtils.putInt(getApplicationContext(),ConstantValue.TOAST_STYLE,which);
+                dialog.dismiss();
+                scv_toast_style.setDes(mToastStyleDes[which]);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     /**
