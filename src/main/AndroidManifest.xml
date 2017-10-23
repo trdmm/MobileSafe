@@ -78,9 +78,13 @@
 
         <service android:name=".Service.RocketService" />
 
-        <activity android:name=".RocketSmokeActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <receiver android:name=".Receiver.CallReceiver"/>
+        <activity
+            android:name=".RocketSmokeActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <receiver android:name=".Receiver.CallReceiver" />
+
+        <activity android:name=".Activities.BlackNumActivity"></activity>
     </application>
 
 </manifest>

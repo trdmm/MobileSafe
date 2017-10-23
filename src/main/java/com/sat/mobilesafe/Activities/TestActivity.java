@@ -89,6 +89,11 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     @TargetApi(23)
     private void checkPermission() {
         //Log.d("TAG",Build.VERSION.SDK_INT+"");
