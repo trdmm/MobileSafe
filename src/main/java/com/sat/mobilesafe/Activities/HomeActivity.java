@@ -3,7 +3,6 @@ package com.sat.mobilesafe.Activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,8 +22,6 @@ import com.sat.mobilesafe.Utils.ConstantValue;
 import com.sat.mobilesafe.Utils.Md5Util;
 import com.sat.mobilesafe.Utils.SpUtils;
 import com.sat.mobilesafe.Utils.ToastUtil;
-
-import org.xutils.common.util.MD5;
 
 /**
  * Project:Working
@@ -58,13 +55,19 @@ public class HomeActivity extends AppCompatActivity {
                         showDialog();
                         Log.d("TAG","手机防盗");
                         break;
+                    case 1:
+                        //通信卫士
+                        Intent intent1 = new Intent(HomeActivity.this, BlackNumActivity.class);
+                        startActivity(intent1);
+                        break;
                     case 7:
                         //跳转到高级工具列表
                         startActivity(new Intent(getApplicationContext(),AToolActivity.class));
                         break;
                     case 8:
-                        Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
-                        startActivity(intent);
+                        //设置中心
+                        Intent intent8 = new Intent(getApplicationContext(), SettingActivity.class);
+                        startActivity(intent8);
                         break;
                 }
             }

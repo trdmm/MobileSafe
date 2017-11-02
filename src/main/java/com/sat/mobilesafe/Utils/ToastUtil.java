@@ -14,7 +14,7 @@ public class ToastUtil {
      * @param context  上下文环境
      * @param s 显示的内容
      */
-    public static void show(Context context,String s) {
-        Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
+    public static void show(Context context,String string) {
+        Toast.makeText(context,string,Toast.LENGTH_SHORT).show();
     }
 }

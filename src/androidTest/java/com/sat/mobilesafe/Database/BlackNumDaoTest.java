@@ -16,22 +16,29 @@ import org.junit.runner.RunWith;
 public class BlackNumDaoTest {
     @Test
     public void query() throws Exception {
+        Context context = InstrumentationRegistry.getTargetContext();
+        BlackNumDao instance = BlackNumDao.getInstance(context);
+        instance.query();
     }
 
     @Test
     public void insert() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
         BlackNumDao instance = BlackNumDao.getInstance(context);
-        instance.insert("110","1");
-
+        instance.insert("110", "1");
     }
 
     @Test
     public void delete() throws Exception {
+        Context context = InstrumentationRegistry.getTargetContext();
+        BlackNumDao instance = BlackNumDao.getInstance(context);
+        instance.delete("110");
     }
 
     @Test
     public void update() throws Exception {
+        Context context = InstrumentationRegistry.getTargetContext();
+        BlackNumDao instance = BlackNumDao.getInstance(context);
+        instance.update("110", "2");
     }
-
 }

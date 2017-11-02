@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.sat.mobilesafe.Bean.BlackNumInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Project:Working
  * Package:com.sat.mobilesafe.Database
@@ -38,21 +43,29 @@ public class BlackNumDao {
     /**
      * 查询数据库
      */
-    public void query() {
+    public List<BlackNumInfo> query() {
         SQLiteDatabase db = dbOpenhelper.getWritableDatabase();
-        Cursor cursor = db.query("blacknum", new String[]{"_id", "phone", "mode"}, null, null, null, null, "_id" + "DESC");
+        Cursor cursor = db.query("blacknum", new String[]{"_id", "phone", "mode"}, null, null, null, null, "_id " + "DESC");
+        List<BlackNumInfo> arrayList = new ArrayList<BlackNumInfo>();
         while (cursor.moveToNext()) {
-            String id = cursor.getColumnName(cursor.getColumnIndex("_id"));
-            String phone = cursor.getColumnName(cursor.getColumnIndex("phone"));
-            String mode = cursor.getColumnName(cursor.getColumnIndex("mode"));
+            BlackNumInfo blackNumInfo = new BlackNumInfo();
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
+            String phone = cursor.getString(cursor.getColumnIndex("phone"));
+            String mode = cursor.getString(cursor.getColumnIndex("mode"));
             Log.d("Query", id + "---" + phone + "---" + mode);
+            //todo 把上面删掉
+            blackNumInfo.phone = phone;
+            blackNumInfo.mode = mode;
+            arrayList.add(blackNumInfo);
         }
         cursor.close();
         db.close();
+        return arrayList;
     }
 
     /**
      * 向表中插入数据
+     *
      * @param phone 插入的号码
      * @param mode  黑名单模式 0:电话 1:短信 2:全部
      */
@@ -67,25 +80,26 @@ public class BlackNumDao {
 
     /**
      * 删除数据
+     *
      * @param phone 删除的号码
      */
     public void delete(String phone) {
         SQLiteDatabase db = dbOpenhelper.getWritableDatabase();
-        db.delete("blacknum","phone=?",new String[]{phone});
+        db.delete("blacknum", "phone=?", new String[]{phone});
         db.close();
     }
 
     /**
      * 修改数据
+     *
      * @param phone 修改的号码
      * @param mode  黑名单模式 0:电话 1:短信 2:全部
      */
-    public void update(String phone,String mode){
+    public void update(String phone, String mode) {
         SQLiteDatabase db = dbOpenhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("mode",mode);
-        db.update("blacknum",values,"phone=?",new String[]{phone});
+        values.put("mode", mode);
+        db.update("blacknum", values, "phone=?", new String[]{phone});
         db.close();
     }
-
 }
